@@ -19,6 +19,6 @@ public class Overloading2 {
         Savings s = new Savings();
         s.interest_calculation(5, 1000);
         Current c = new Current();
-        c.interest_calculation(3, 2000);
+        c.interest_calculation(3, 1000);
     }
 }
