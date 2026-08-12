@@ -13,5 +13,6 @@ public class Exception1 {
         catch(Exception e){
             System.out.println("Zero Division Error");
         }
+        s.close();
     }
 }

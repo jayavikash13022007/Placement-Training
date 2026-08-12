@@ -21,5 +21,6 @@ public class Exception3 {
         catch(Exception e){
             System.out.println(e);
         }
+        s.close();
     }
 }
