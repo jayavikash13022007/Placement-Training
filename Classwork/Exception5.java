@@ -6,7 +6,7 @@ class InvalidMarkException extends Exception{
 }
 class Student{
     private int mark;
-    void GetMark(int mark) throws InvalidMarkException{
+    void GetMark(int mark) throws Exception{
         try{
             if(mark < 0 || mark > 100) throw new InvalidMarkException("Invalid Mark");
             this.mark = mark;
