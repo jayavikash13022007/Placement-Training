@@ -46,8 +46,5 @@ class Bank{
 public class Bank7 {
         public static void main(String args[]){
         Bank b1 = new Bank(101, "Jayavikah", 9876543211l, "Savings", 100000);
-        b1.getMobileNumber();
-        b1.setMobileNumber(9999999999l);
-        b1.getMobileNumber();
     }
 }
