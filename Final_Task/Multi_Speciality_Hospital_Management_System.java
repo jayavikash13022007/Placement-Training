@@ -43,14 +43,9 @@ class Department{
 class Patient extends Person{
     private int Age;
     private String Disease,BloodGroup;
-    Patient(int ID,String Name,int Age,String Disease,String BloodGroup){
+    Patient(int ID,String Name,int Age,String Disease,String BloodGroup) throws InvalidAgeException{
         super(ID,Name);
-        try{
-            if(Age<=0) throw new InvalidAgeException("Invalid Age");
-        }
-        catch(InvalidAgeException e){
-            System.out.println(e);
-        }
+        if(Age<=0) throw new InvalidAgeException("Invalid Age");
         this.Age=Age;
         this.Disease=Disease;
         this.BloodGroup=BloodGroup;
@@ -91,6 +86,15 @@ class Hospital{
     ArrayList<Doctor> Doctors=new ArrayList<>();
     ArrayList<Department> Departments=new ArrayList<>();
     LinkedList<Appointment> Appointments=new LinkedList<>();
+    void addPatient(Patient p){
+        Patients.add(p);
+    }
+    void addDoctor(Doctor d){
+        Doctors.add(d);
+    }
+    void addDepartment(Department d){
+        Departments.add(d);
+    }
     Patient searchPatient(int id) throws PatientNotFoundException{
         for(Patient p:Patients){
             if(p.getID()==id){
@@ -114,11 +118,10 @@ public class Multi_Speciality_Hospital_Management_System{
         Scanner s = new Scanner(System.in);
         int ch = 0;
         while(ch != 7){
-            System.out.println("1. Add Patient\n2. Add Doctor\n3. Add Department\n4. Add Appointment\n 5. Search Patient\n 6. Search Doctor\n7. Exit\nEnter your choice: ");
+            System.out.println("1. Add Patient\n2. Add Doctor\n3. Add Department\n4. Add Appointment\n5. Search Patient\n6. Search Doctor\n7. Exit\nEnter your choice: ");
             ch = s.nextInt();
-            boolean flag = false;
             switch(ch){
-                case 1:
+                case 1:{
                     System.out.println("Enter Patient Details");
                     System.out.print("Patient ID: ");
                     int id = s.nextInt();
@@ -132,10 +135,16 @@ public class Multi_Speciality_Hospital_Management_System{
                     String disease = s.nextLine();
                     System.out.print("Blood Group: ");
                     String blood = s.nextLine();
-                    Patient p = new Patient(id,name,age,disease,blood);
-                    h.addPatient(p);
+                    try{
+                        Patient p = new Patient(id,name,age,disease,blood);
+                        h.addPatient(p);
+                    }
+                    catch(InvalidAgeException e){
+                        System.out.println(e.getMessage());
+                    }
                     break;
-                case 2:
+                }
+                case 2:{
                     System.out.println("Enter Doctor Details");
                     System.out.print("Doctor ID: ");
                     int id = s.nextInt();
@@ -152,7 +161,8 @@ public class Multi_Speciality_Hospital_Management_System{
                     Doctor d = new Doctor(id,name,fee,speciality,experience);
                     h.addDoctor(d);
                     break;
-                case 3:
+                }
+                case 3:{
                     System.out.println("Enter Department Details");
                     System.out.print("Department ID: ");
                     int id = s.nextInt();
@@ -162,7 +172,8 @@ public class Multi_Speciality_Hospital_Management_System{
                     Department d = new Department(id,name);
                     h.addDepartment(d);
                     break;
-                case 4:
+                }
+                case 4:{
                     System.out.println("Enter Appointment Details");
                     System.out.print("Appointment ID: ");
                     int appointmentId=s.nextInt();
@@ -171,32 +182,53 @@ public class Multi_Speciality_Hospital_Management_System{
                     System.out.print("Doctor ID: ");
                     int doctorId=s.nextInt();
                     s.nextLine();
-                    Patient patient=h.searchPatient(patientId);
-                    Doctor doctor=h.searchDoctor(doctorId);
-                    System.out.print("Date: ");
-                    String date=s.nextLine();
-                    System.out.print("Time: ");
-                    String time=s.nextLine();
-                    System.out.print("Status: ");
-                    String status=s.nextLine();
-                    Appointment a=new Appointment(appointmentId,patient,doctor,date,time,status);
-                    h.Appointments.add(a);
+                    try{
+                        Patient patient=h.searchPatient(patientId);
+                        Doctor doctor=h.searchDoctor(doctorId);
+                        System.out.print("Date: ");
+                        String date=s.nextLine();
+                        System.out.print("Time: ");
+                        String time=s.nextLine();
+                        System.out.print("Status: ");
+                        String status=s.nextLine();
+                        Appointment a=new Appointment(appointmentId,patient,doctor,date,time,status);
+                        h.Appointments.add(a);
+                    }
+                    catch(Exception e){
+                        System.out.println(e.getMessage());
+                    }
                     break;
-                case 5:
+                }
+                case 5:{
                     System.out.print("Patient ID: ");
                     int patientId=s.nextInt();
-                    Patient patient=h.searchPatient(patientId);
-                    patient.displayDetails();
+                    try{
+                        Patient patient=h.searchPatient(patientId);
+                        patient.displayDetails();
+                    }
+                    catch(PatientNotFoundException e){
+                        System.out.println(e);
+                    }
                     break;
-                case 6:
+                }
+                case 6:{
                     System.out.print("Doctor ID: ");
                     int doctorId=s.nextInt();
-                    Doctor doctor=h.searchDoctor(doctorId);
-                    doctor.displayDetails();
+                    try{
+                        Doctor doctor=h.searchDoctor(doctorId);
+                        doctor.displayDetails();
+                    }
+                    catch(DoctorNotFoundException e){
+                        System.out.println(e);
+                    }
                     break;
-                case 7: flag = true; break;
+                }
+                case 7:
+                    break;
+                default:
+                    System.out.println("Invalid choice");
             }
-            if(flag) break;
         }
+        s.close();
     }
 }
