@@ -11,8 +11,11 @@ class InvalidDepositAmount extends Exception{
 }
 class Bank{
     static String bankname = "Mariamman Indian Bank";
+    private long mobileNumber;
+    private int balance, accountNumber;
+    private String accountHolderName, accountType;
 }
-public class Bank1 {
+public class Bank3 {
         public static void main(String args[]){
         }
 }
